@@ -1,14 +1,17 @@
+///
+
+/// The error handling function
 fn die(e: std::io::Error) {
     println!("{}", e);
 }
-
+///
 pub struct Editor {
     pub theme: Theme,
     pub cursor: (u16, u16),
     pub text: String,
     pub terminal: crate::terminal::Terminal,
 }
-
+///
 impl Editor {
     pub fn run(&mut self) {
         let mut stdout = stdout().into_raw_mode().unwrap();
@@ -59,9 +62,9 @@ impl Editor {
             }
 
             for x in self.text.chars() {
-                let editor_size = (Editor::size().0) - self.terminal.height;
+                let editor_height = Editor::size().0 - self.terminal.height;
 
-                if y_it > editor_size {
+                if y_it > editor_height {
                 } else {
                     h(x_it, y_it);
                     if x == '\n' {
@@ -70,7 +73,6 @@ impl Editor {
                         h(x_it, y_it);
                     } else {
                         print!("{}", x);
-                        // print!("{}", termion::color::Reset.bg_str(),);
                         x_it += 1;
                     }
                 }
@@ -89,15 +91,10 @@ impl Editor {
         }
     }
 }
-// Drawing API
+/// Drawing API
 impl Editor {
     pub fn render(&self) {
         Editor::clear();
-        for y in 0..Editor::size().1 {
-            for x in 0..Editor::size().0 {
-                print!("{}", self.theme.background.bg_string(),);
-            }
-        }
 
         self.draw_outline();
     }
@@ -163,7 +160,7 @@ impl Editor {
         );
     }
 }
-// file based functions
+/// file based functions
 impl Editor {
     pub fn _save(&mut self) {
         // Multithread the save code
