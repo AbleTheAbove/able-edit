@@ -76,7 +76,7 @@ impl Editor {
                         x_it += 1;
                     }
                 }
-                stdout.flush().unwrap();
+                // stdout.flush().unwrap();
             }
             stdout.flush().unwrap();
         }

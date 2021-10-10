@@ -1,4 +1,5 @@
-///
+//! Terminal module
+//! Used for implementing the terminal functionality of able-edit
 
 ///
 pub struct Terminal {
