@@ -1,5 +1,5 @@
 #![warn(missing_docs)]
-///
+//! Able-Edit is a text/code editor built specifically for me.
 
 ///
 fn main() {

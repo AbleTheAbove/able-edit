@@ -23,7 +23,7 @@ impl Theme {
     pub fn default_dark() -> Theme {
         let theme = Theme {
             foreground: AnsiValue::rgb(255, 255, 255),
-            background: AnsiValue::rgb(255, 255, 255),
+            background: AnsiValue::rgb(0, 0, 0),
             math_operators: AnsiValue::rgb(0, 0, 0),
             keywords: AnsiValue::rgb(0, 0, 0),
             outline: AnsiValue::rgb(0, 0, 0),

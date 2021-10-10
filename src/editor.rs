@@ -1,4 +1,4 @@
-///
+//!
 
 /// The error handling function
 fn die(e: std::io::Error) {
@@ -53,7 +53,7 @@ impl Editor {
             let mut x_it = 0;
             let mut y_it = 0;
 
-            pub fn h(x_it: u16, y_it: u16) {
+            pub fn text_render(x_it: u16, y_it: u16) {
                 print!(
                     "{}{}",
                     termion::cursor::Goto(x_it + 2, y_it + 2),
@@ -66,17 +66,16 @@ impl Editor {
 
                 if y_it > editor_height {
                 } else {
-                    h(x_it, y_it);
+                    text_render(x_it, y_it);
                     if x == '\n' {
                         x_it = 0;
                         y_it += 1;
-                        h(x_it, y_it);
+                        text_render(x_it, y_it);
                     } else {
                         print!("{}", x);
                         x_it += 1;
                     }
                 }
-                // stdout.flush().unwrap();
             }
             stdout.flush().unwrap();
         }
@@ -126,6 +125,13 @@ impl Editor {
         print!("└");
         Editor::draw_line();
         print!("┘");
+
+        print!(
+            "{}├{}Text Buffer{}",
+            termion::cursor::Goto(1, 1),
+            self.theme.foreground.fg_string(),
+            self.theme.outline.fg_string(),
+        );
 
         print!(
             "{}├",
