@@ -6,7 +6,7 @@ fn main() {
     let mut editor = editor::Editor::default();
     plugins::Plugin::test();
 
-    editor.run();
+    // editor.run();
 }
 /// Editor module
 mod editor;
