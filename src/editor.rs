@@ -98,9 +98,9 @@ impl Editor {
         }
 
         let decoded: Config = toml::from_str(&contents).unwrap();
-        println!("{:#?}", decoded);
+        // println!("{:#?}", decoded);
 
-        println!("With text:\n{}", contents);
+        // println!("With text:\n{}", contents);
     }
     pub fn default() -> Self {
         Self {
@@ -149,7 +149,7 @@ impl Editor {
 
         print!(
             // "{}├{}Text Buffer{}",
-            "{}├Text Buffer",
+            "{}┌Text Buffer",
             termion::cursor::Goto(1, 1),
             // self.theme.foreground.fg_string(),
             // self.theme.outline.fg_string(),
@@ -198,10 +198,11 @@ impl Editor {
 }
 
 use crate::{terminal::Terminal, theme::Theme};
-use std::io::{stdin, stdout, Write};
+use std::{
+    fs,
+    io::{stdin, stdout, Write},
+};
 
 use termion::{event::Key, input::TermRead, raw::IntoRawMode, terminal_size};
-
-use std::fs;
 
 use serde_derive::Deserialize;
