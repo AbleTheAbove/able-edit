@@ -1,4 +1,7 @@
-pub struct PluginsHolder(Vec<Plugin>);
+pub struct PluginsHolder {
+    pub list: Vec<Plugin>,
+    pub engine: Engine,
+}
 impl PluginsHolder {
     pub fn load() {
         for x in 0..10 {}

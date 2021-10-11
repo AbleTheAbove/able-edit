@@ -7,3 +7,7 @@ outline = [0, 0, 0]
 numbers = [0, 0, 0]
 string_Literals = [0, 0, 0]
 comments = [0, 0, 0]
+
+[plugins]
+# Simple config for plugins
+example = true
