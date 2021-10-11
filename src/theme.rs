@@ -1,38 +1,47 @@
+pub struct Color(u8, u8, u8);
+impl Color {
+    pub fn to_ascii(&self) -> String {
+        AnsiValue::rgb(self.0, self.1, self.2).fg_string()
+    }
+}
+
 /// A structure that holds all of the colors for a theme
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Theme {
     ///
-    pub foreground: AnsiValue,
+    pub foreground: Option<[u8; 3]>,
     ///
-    pub background: AnsiValue,
+    pub background: Option<[u8; 3]>,
     ///
-    pub math_operators: AnsiValue,
+    pub math_operators: Option<[u8; 3]>,
     ///
-    pub keywords: AnsiValue,
+    pub keywords: Option<[u8; 3]>,
     ///
-    pub outline: AnsiValue,
+    pub outline: Option<[u8; 3]>,
     ///
-    pub numbers: AnsiValue,
+    pub numbers: Option<[u8; 3]>,
     ///
-    pub string_literals: AnsiValue,
+    pub string_literals: Option<[u8; 3]>,
     ///
-    pub comments: AnsiValue,
+    pub comments: Option<[u8; 3]>,
 }
 
 impl Theme {
     /// The default dark theme which is liable to change
     pub fn default_dark() -> Theme {
         let theme = Theme {
-            foreground: AnsiValue::rgb(255, 255, 255),
-            background: AnsiValue::rgb(0, 0, 0),
-            math_operators: AnsiValue::rgb(0, 0, 0),
-            keywords: AnsiValue::rgb(0, 0, 0),
-            outline: AnsiValue::rgb(0, 0, 0),
-            numbers: AnsiValue::rgb(0, 0, 0),
-            string_literals: AnsiValue::rgb(0, 0, 0),
-            comments: AnsiValue::rgb(0, 0, 0),
+            foreground: Some([255, 255, 255]),
+            background: Some([0, 0, 0]),
+            math_operators: Some([0, 0, 0]),
+            keywords: Some([0, 0, 0]),
+            outline: Some([0, 0, 0]),
+            numbers: Some([0, 0, 0]),
+            string_literals: Some([0, 0, 0]),
+            comments: Some([0, 0, 0]),
         };
         theme
     }
 }
 
+use serde_derive::{Deserialize, Serialize};
 use termion::color::AnsiValue;

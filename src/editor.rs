@@ -1,7 +1,7 @@
 //!
 
 /// The error handling function
-fn die(e: std::io::Error) {
+fn error_handle(e: std::io::Error) {
     println!("{}", e);
 }
 ///
@@ -14,6 +14,8 @@ pub struct Editor {
 ///
 impl Editor {
     pub fn run(&mut self) {
+        self.init();
+
         let mut stdout = stdout().into_raw_mode().unwrap();
         let size = terminal_size().unwrap();
 
@@ -27,6 +29,10 @@ impl Editor {
             self.render();
             print!("{}", termion::cursor::Hide);
             print!("{}", termion::cursor::Goto(1, 2));
+
+            if let Ok(key) = key {
+                print!("{}{:?}", termion::cursor::Goto(2, size.0), key);
+            };
 
             match key {
                 Ok(key) => match key {
@@ -45,10 +51,10 @@ impl Editor {
                         self.text.pop();
                     }
                     _ => {
-                        println!("{}{:?}\r", termion::cursor::Goto(2, 1), key);
+                        print!("{}{:?}", termion::cursor::Goto(2, size.0), key);
                     }
                 },
-                Err(err) => die(err),
+                Err(err) => error_handle(err),
             }
             let mut x_it = 0;
             let mut y_it = 0;
@@ -81,6 +87,21 @@ impl Editor {
         }
         Editor::reset();
     }
+
+    fn init(&self) {
+        let filename = "config.toml";
+        let contents = fs::read_to_string(filename).expect("Something went wrong reading the file");
+
+        #[derive(Debug, Deserialize)]
+        struct Config {
+            pub theme: Option<Theme>,
+        }
+
+        let decoded: Config = toml::from_str(&contents).unwrap();
+        println!("{:#?}", decoded);
+
+        println!("With text:\n{}", contents);
+    }
     pub fn default() -> Self {
         Self {
             theme: Theme::default_dark(),
@@ -109,7 +130,7 @@ impl Editor {
         // │ ┤ ┐ └ ┴ ┬ ├ ─ ┼ ┘ ┌
         let size = terminal_size().unwrap();
         print!("{}", termion::cursor::Goto(1, 1));
-        print!("{}", self.theme.outline.fg_string());
+        // print!("{}", self.theme.outline.fg_string());
         print!("┌");
         Editor::draw_line();
         print!("┐");
@@ -127,10 +148,11 @@ impl Editor {
         print!("┘");
 
         print!(
-            "{}├{}Text Buffer{}",
+            // "{}├{}Text Buffer{}",
+            "{}├Text Buffer",
             termion::cursor::Goto(1, 1),
-            self.theme.foreground.fg_string(),
-            self.theme.outline.fg_string(),
+            // self.theme.foreground.fg_string(),
+            // self.theme.outline.fg_string(),
         );
 
         print!(
@@ -142,9 +164,10 @@ impl Editor {
         print!("┤");
 
         print!(
-            "{}├{}Terminal",
+            "{}├Terminal",
+            // "{}├{}Terminal",
             termion::cursor::Goto(1, size.1 - self.terminal.height),
-            self.theme.foreground.fg_string(),
+            // self.theme.foreground.fg_string(),
         );
     }
     pub fn draw_line() {
@@ -178,3 +201,7 @@ use crate::{terminal::Terminal, theme::Theme};
 use std::io::{stdin, stdout, Write};
 
 use termion::{event::Key, input::TermRead, raw::IntoRawMode, terminal_size};
+
+use std::fs;
+
+use serde_derive::Deserialize;
