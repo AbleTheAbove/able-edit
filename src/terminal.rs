@@ -8,9 +8,9 @@ pub struct Terminal {
 }
 ///
 impl Terminal {
-    ///
-    pub fn default() -> Terminal {
-        Terminal {
+    /// provide a default for terminal
+    pub fn default() -> Self {
+        Self {
             height: 2,
             focused: false,
         }
