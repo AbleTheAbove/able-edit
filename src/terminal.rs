@@ -15,4 +15,6 @@ impl Terminal {
             focused: false,
         }
     }
+
+    pub fn run() {}
 }

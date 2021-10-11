@@ -3,9 +3,7 @@ pub struct PluginsHolder {
     pub engine: Engine,
 }
 impl PluginsHolder {
-    pub fn load() {
-        for x in 0..10 {}
-    }
+    pub fn load() {}
 }
 
 pub struct Plugin {
