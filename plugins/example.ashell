@@ -1,0 +1,9 @@
+register_command(calc);
+
+fn calc(x, y) {
+      x + y.len < 42
+}
+
+fn action(x) {
+      this += x;
+}

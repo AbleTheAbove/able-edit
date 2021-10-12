@@ -6,13 +6,13 @@ fn main() {
     let mut editor = editor::Editor::default();
     plugins::Plugin::test();
 
-    editor.run();
+    // editor.run();
 }
 /// Editor module
 mod editor;
+/// Plugin system that will be incorperated fully as time goes on
+mod plugins;
 /// Terminal module
 mod terminal;
 /// The theme module used to style the editor
 pub mod theme;
-
-mod plugins;

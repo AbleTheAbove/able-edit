@@ -3,9 +3,7 @@ pub struct PluginsHolder {
     pub engine: Engine,
 }
 impl PluginsHolder {
-    pub fn load() {
-        for x in 0..10 {}
-    }
+    pub fn load() {}
 }
 
 pub struct Plugin {
@@ -15,18 +13,34 @@ pub struct Plugin {
 
 impl Plugin {
     pub fn test() -> Result<(), Box<EvalAltResult>> {
+        // TODO: Move to the PluginsHolder
         let mut engine = Engine::new();
 
-        engine.register_fn("add", add);
-        let ast = engine.compile_file("./plugins/plugin.rhai".into())?;
-        // print the ast for debugging purposes
-        println!("{:?}", ast);
+        engine.register_fn("register_command", register_command);
 
+        let ast = engine.compile_file("./plugins/example.ashell".into())?;
+        // print the ast for debugging purposes
+        // println!("{:?}", ast);
+
+        let mut value: Dynamic = 1_i64.into();
+        let mut scope = Scope::new();
+        let result = engine.call_fn_dynamic(
+            &mut scope,
+            &ast,
+            false,
+            "action",
+            Some(&mut value), // binding the 'this' pointer
+            [41_i64.into()],
+        )?;
+
+        println!("{:?}", value.as_int());
         Ok(())
     }
 }
 
-fn add(x: INT, y: INT) -> INT {
-    x + y
+pub fn register_command(name: String) {
+    // Register a rhai command for use by ashell
+    println!("{}", name);
 }
-use rhai::{Engine, EvalAltResult, AST, INT};
+
+use rhai::{Dynamic, Engine, EvalAltResult, Func, Scope, AST, INT};
